@@ -24,6 +24,11 @@ if (SERVER) then
 	-- NYPD Male Models
 	resource.AddWorkshop(170149842) -- NYPD Male Models (https://steamcommunity.com/sharedfiles/filedetails/?id=311241022)
 	resource.AddWorkshop(323285641) -- TDM Base GTA V (https://steamcommunity.com/sharedfiles/filedetails/?id=323285641)
+
+	resource.AddWorkshop(1837527967) -- Life Mod: Graphic (https://steamcommunity.com/sharedfiles/filedetails/?1837527967)
+	resource.AddWorkshop(632126111) -- iNPC: Better AI (https://steamcommunity.com/sharedfiles/filedetails/?632126111)
+
+	resource.AddWorkshop(1678408548) -- VRMod (https://steamcommunity.com/sharedfiles/filedetails/?1678408548)
 	
 	resource.AddWorkshop(160250458) -- Wiremod (https://steamcommunity.com/sharedfiles/filedetails/?id=160250458)
 	resource.AddWorkshop(773402917) -- Advanced Duplicator 2 (https://steamcommunity.com/sharedfiles/filedetails/?id=773402917)
