@@ -12,7 +12,7 @@ All right reserved.
 
 You can't :
 Sell the script (If you're not Nocturlab)
-Modify the script (If you're not collaborator in this repository https://github.com/shiipou/zam-nocturlab-gamemode)
+Modify the script (If you're not collaborator in this repository https://github.com/shiipou/zam-nocturlab/gamemode)
 Share the script (If you didn't revieve the nocturlab authorisation by mail)
 
 You may not:
