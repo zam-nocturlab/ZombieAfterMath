@@ -2,14 +2,13 @@
 
 -- How to get position and angle
 -- lua_run_cl local t = LocalPlayer():GetEyeTraceNoCursor() print(t.HitPos) print(t.HitNormal:Angle())
-
-WEAPONFACTORY_POS = Vector(1632.010376, -1534.968750, -128.953522)
-WEAPONFACTORY_ANG = Angle(0, 90, 0)
-JAILMANAGER_POS = Vector(-1704.031250, 280.280975, -130.669281)
-JAILMANAGER_ANG = Angle(-0.000, 180.000, 0.000)
-JAILBUZZER_POS = Vector(-2053.437988, 321.362732, -70.718750)
-SCREEN_POS = Vector(-1063.031250, -1431.750122, 253.791711)
-SCREEN_ANG = Angle(0.000, 180.000, 0.000)
+WEAPONFACTORY_POS = Vector(2639, 11302, 290)
+WEAPONFACTORY_ANG = Angle(0, 180, 0)
+JAILMANAGER_POS = Vector(-10297, 3338, 2)
+JAILMANAGER_ANG = Angle(-45.000, -135.000, 0.000)
+JAILBUZZER_POS = Vector(-10315, 3360, 5)
+SCREEN_POS = Vector(-600, -1533, -2190)
+SCREEN_ANG = Angle(0.000, 90.000, 0.000)
 /*
 -1062.031250 -1431.750122 252.691711
 -0.000 180.000 0.000
@@ -196,37 +195,25 @@ else
 		SCREEN_3.ang = SCREEN_ANG
 		SCREEN_3.noClipping = false
 		SCREEN_3.w = 222
-		SCREEN_3.h = 117
+		SCREEN_3.h = 75
 		SCREEN_3.scale = .4
 
 		timer.Simple(1, function()
 			MRKPOBJ = nut.markup.parse(
 [[
-<font=nutBigFont><color=200, 200, 80>RP_Downtown_V2</font>
-<font=nutMediumFont>A HUGE EXAMPLE FOR 3D SCREEN AND MAP MANUPULATION</color>
+<font=nutBigFont><color=200, 200, 80>Nocturlab Zombie AfterMath</font>
+<font=nutMediumFont>Welcome and Good Luck.</color>
 
-This map is huge <color=255, 80, 80>EXAMPLE</color> of what you can do with new touchscreen library and map manipulation examples.
-Everyone has something in mind about the map. This example allows you to add more stuffs or fix some stuffs in the map. 
-The script contains <color=255, 80, 80>SERVERSIDE</color> and <color=255, 80, 80>CLIENTSIDE</color> examples.
-I hope you can make the map more awesome with this example!
+This server created by <color=255, 80, 80>Shiishii</color> is an idea inspired by many <color=255, 80, 80>horror games</color>.
 
-Following aspects of this map are modified:
-<color=255, 80, 80>1. Fixed Elevator</color>
-The Elevator near police station is fixed. Now you can call the elevator on the surface. This thing is not possible without this modification script.
+This server contain script and plugins for <color=255, 80, 80>Nutscript v2</color> with the main idea of create a Roleplay server totally differents from all others.
+Most of the gamemode was <color=255, 80, 80>opensourced</color>, but we want to keep some plugins internal of this server.
 
-<color=255, 80, 80>2. Jail Door Manager</color>
-There is Jail Door Controller in the Police Station's Custody. Players can open specific door with the touch screen interface. 
+You were placed in an apocalytic world where <color=255, 80, 80>zombie</color> and other monsters has take control of the world.
 
-<color=255, 80, 80>3. Gun Shop Ammo Machine</color>
-Machine in the gunshop that generates ammo and weapon now has touchscreen interface. Currently it just have big green "Activate" button which allows you to create ammobox.
+You can learn more about the story by find and read a lot of book or notes hidden anywhere in the world.
 
-<color=255, 80, 80>4. This board</color>
-This board that you're currently looking at is also modified. This board notifies the server owner/developer what is changed, what you can do with this script. 
-I hope you can make awesome stuff with this example and library. 
-
-Every scripts in the list is included in mapscript plugin. You can go check the source and make your own variant now!
-
-<color=80, 255, 80>From Dear, Black Tea Za rebel1324.</color>
+<color=80, 255, 80>From your Dear, Shiishii.</color>
 ]]
 			, SCREEN_3:getWide() - 20)
 		end)
