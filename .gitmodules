@@ -1,0 +1,3 @@
+[submodule "plugins/vehicle"]
+	path = plugins/vehicle
+	url = git@github.com:zam-nocturlab/vehicle_plugin.git
