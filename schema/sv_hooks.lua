@@ -83,6 +83,7 @@ function SCHEMA:CanPlayerInteractItem(client, action, item)
 	end
 end
 
+
 -- This hook returns whether player can receive the salary or not.
 function SCHEMA:CanPlayerReceiveSalary(client)
 	local char = client:getChar()
@@ -105,12 +106,70 @@ function SCHEMA:PlayerSpawn(client)
 	end
 end
 
+local function item2world(inv, item, pos)
+        item.invID = 0
+
+        inv:remove(item.id, false, true)
+        nut.db.query("UPDATE nut_items SET _invID = 0 WHERE _itemID = "..item.id)
+
+        local ent = item:spawn(pos)
+
+        if (IsValid(ent)) then
+                timer.Simple(0, function()
+                        local phys = ent:GetPhysicsObject()
+
+                        if (IsValid(phys)) then
+                                phys:EnableMotion(true)
+                                phys:Wake()
+                        end
+                end)
+        end
+
+        return ent
+end
+
 -- This hook enforces death penalty for dead players.
 function SCHEMA:PlayerDeath(client)
 	local char = client:getChar()
 
 	if (char) then
 		client.deadChar = char:getID()
+
+                 -- weapon penalty
+                local inv = char:getInv()
+                local items = inv:getItems()
+                local dropItems = {}
+                local dmgType = 0
+
+                -- client:resetParts()
+
+                if (table.Count(items) > 0) then
+                        for k, v in pairs(items) do
+                                if (v.isWeapon) then
+                                        if (v:getData("equip")) then
+                                                v:setData("equip", nil)
+
+                                                local ent = item2world(inv, v, client:GetPos() + Vector(0, 0, 10))
+                                                continue
+                                        end
+                                end
+
+
+                                if (v:getData("equip")) then
+                                        v:setData("equip", nil)
+                                end
+                                if (v:transfer(nil, nil, nil, client, nil, true)) then
+                                        dropItems[v:getID()] = {uid = v.uniqueID, data = v.data}
+                                end
+                        end
+
+                        loots = ents.Create("nut_loots")
+                        loots.items = dropItems
+                        loots:SetPos(client:GetPos() + Vector(0, 0, 10))
+                        loots:Spawn()
+                        loots:Activate()
+                end
+                -- money penalty
 		char.lostMoney = math.Round(char:getReserve() * (nut.config.get("dpBank", 10) / 100))
 		if (char.lostMoney > 10) then
 			char:takeReserve(char.lostMoney)
@@ -159,23 +218,21 @@ end
 
 -- On character is created, Give him some money and items. 
 function SCHEMA:OnCharCreated(client, id)
-	local char = nut.char.loaded[id]
+	local char = id
 
-	if (char) then
+	--if (char) then
 		local inv = char:getInv()
-
-		if (inv) then
+	--	if (inv) then
 			inv:add("healvial")
-		end
+	--	end
 
 		char:giveMoney(nut.config.get("startMoney", 0))
-	end
+	--end
 end
 
 -- Give Class Loadout.
 function SCHEMA:PostPlayerLoadout(client)
 	local char = client:getChar()
-
 	if (char) then
 		local class = nut.class.list[char:getClass()]
 
