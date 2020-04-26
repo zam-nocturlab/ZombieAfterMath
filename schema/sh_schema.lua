@@ -12,7 +12,7 @@ SCHEMA.helps = {
 	<br>I want to follow the main guideline of Nutscript : `Me or Other Players that plays your server does not want to feel dejavu when playing on your sever`]],
 	["What is this?"] = 
 	[[This schema is Nocturlab Zombie AfterMath v0.0.1.
-	<br>This schema can is actually a secret. The author of shcema, Shiishii of Nocturlab.]],
+	<br>This schema can is actually a secret. The author of schema, Shiishii of Nocturlab.]],
 	["About the author"] = 
 	[[This schema's author is Shiishii (https://github.com/shiipou).
 	<br>I'll tell you more about me later.
@@ -24,6 +24,7 @@ if (SERVER) then
 	-- NYPD Male Models
 	resource.AddWorkshop(170149842) -- NYPD Male Models (https://steamcommunity.com/sharedfiles/filedetails/?id=311241022)
 	resource.AddWorkshop(323285641) -- TDM Base GTA V (https://steamcommunity.com/sharedfiles/filedetails/?id=323285641)
+	resource.AddWorkshop(1316337273) -- TDM GTA V Helicopters (https://steamcommunity.com/sharedfiles/filedetails/?id=1316337273)
 
 	resource.AddWorkshop(1837527967) -- Life Mod: Graphic (https://steamcommunity.com/sharedfiles/filedetails/?1837527967)
 	resource.AddWorkshop(632126111) -- iNPC: Better AI (https://steamcommunity.com/sharedfiles/filedetails/?632126111)
@@ -39,6 +40,8 @@ if (SERVER) then
 	resource.AddWorkshop(1420329725) -- Touhou Project - Hata no Kokoro [Anek] - Player Model and NPC (https://steamcommunity.com/sharedfiles/filedetails/?id=1420329725)
 	resource.AddWorkshop(428781078) -- Aftermath Night and Day (https://steamcommunity.com/sharedfiles/filedetails/?id=428781078)
 	resource.AddWorkshop(207739713) -- NutScript Content (https://steamcommunity.com/sharedfiles/filedetails/?id=207739713)
+
+--	sv_lifehud_overridepattern = 14680416 -- Setup the Lifemod HUD
 
 	-- Adding Gasmask Resources
 	resource.AddFile("sound/gasmaskon.wav")
@@ -88,4 +91,4 @@ nut.util.include("meta/sh_entity.lua")
 nut.util.include("meta/sh_character.lua")
 nut.util.include("sh_dev.lua") -- Developer Functions
 
-nut.dialogue.loadFromDir(SCHEMA.folder .. "/schema/dialogues")
+-- nut.dialogue.loadFromDir(SCHEMA.folder .. "/schema/dialogues")
