@@ -19,9 +19,9 @@ LANGUAGE = {
 	lotteryProfit = "You won %s in the lottery.",
 	["Gun Efficiency"] = "Shooting Performance",
 	["Medical Knowledge"] = "Medical Knowledge",
-	[ "Melee Efficiency" ] = "Mastery of Wrestling."
-	[ "Stamina" ] = "Stamina."
-	[ Stamina ] = "Endurance."
+	["Melee Efficiency"] = "Mastery of Wrestling."
+	["Stamina"] = "Stamina."
+	["Endurance"] = "Endurance."
 
 	-- BAR LANGUAGES
 	stm = "STAMINA",
@@ -30,10 +30,10 @@ LANGUAGE = {
 	hunger = "FAIM",
 
 	-- ITEM CATEGORY TRANSLATION
-	[ "Ammunition" ] = Ammunition,
+	[ "Ammunition" ] = "Ammunition",
 	["Communication"] = "Communication",
-	[ "Female Clothes" ]
-	[ "Male Clothes" ] = Male Clothes,
+	["Female Clothes"] = "Female Clothes"
+	["Male Clothes"] = "Male Clothes",
 	["Medical"] = "Medical Materials",
 	[ "Outfit" ] = "Clothes."
 	["Illegal"] = "Illegal Goods",
