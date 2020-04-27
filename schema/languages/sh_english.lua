@@ -19,7 +19,7 @@ LANGUAGE = {
 	lotteryProfit = "You won %s in the lottery.",
 	["Gun Efficiency"] = "Shooting Performance",
 	["Medical Knowledge"] = "Medical Knowledge",
-	["Melee Efficiency"] = "Mastery of Close combat"
+	["Melee Efficiency"] = "Close Combat Mastery"
 	["Stamina"] = "Stamina"
 	["Endurance"] = "Endurance"
 
