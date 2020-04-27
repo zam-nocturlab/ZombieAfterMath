@@ -27,7 +27,7 @@ LANGUAGE = {
 	stm = "STAMINA",
 	health = "HEALTH",
 	armor = "ARMOR",
-	hunger = "FAIM",
+	hunger = "HUNGER",
 
 	-- ITEM CATEGORY TRANSLATION
 	[ "Ammunition" ] = "Ammunition",
@@ -96,7 +96,7 @@ LANGUAGE = {
 	Examine = "Examine",
 	View = "Display",
 	Read = "Read",
-	Drink = "Read",
+	Drink = "Drink",
 	Toggle = "Toggle",
 	Freq = "Frequency",
 	Spawn = "Spawn"
