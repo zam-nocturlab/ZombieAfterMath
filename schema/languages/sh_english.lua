@@ -15,13 +15,13 @@ LANGUAGE = {
 	cantAfford = "You can't afford it",
 	enterAmount = "Enter the amount",
 	requireAttrib = "You must continue to train to use this item. (%s: %s/%s)",
-	lotteryFail = "You didn't win anything in the lottery."
+	lotteryFail = "You didn't win anything in the lottery"
 	lotteryProfit = "You won %s in the lottery.",
 	["Gun Efficiency"] = "Shooting Performance",
 	["Medical Knowledge"] = "Medical Knowledge",
-	["Melee Efficiency"] = "Mastery of Wrestling."
-	["Stamina"] = "Stamina."
-	["Endurance"] = "Endurance."
+	["Melee Efficiency"] = "Mastery of Wrestling"
+	["Stamina"] = "Stamina"
+	["Endurance"] = "Endurance"
 
 	-- BAR LANGUAGES
 	stm = "STAMINA",
@@ -35,10 +35,10 @@ LANGUAGE = {
 	["Female Clothes"] = "Female Clothes"
 	["Male Clothes"] = "Male Clothes",
 	["Medical"] = "Medical Materials",
-	[ "Outfit" ] = "Clothes."
+	["Outfit"] = "Clothes."
 	["Illegal"] = "Illegal Goods",
-	[ "Consumable" ]
-	["Storage"] = "Tidying up."
+	["Consumable"] = "Consumable"
+	["Storage"] = "Storage"
 	["Education"] = "Education",
 
 	-- GROUP PLUGIN TRANSLATION
