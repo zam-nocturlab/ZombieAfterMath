@@ -1,14 +1,16 @@
 "zam_nocturlab"
 {
-    "base"          "nutscript"
-    "title"         "Nocturlab Zombie AfterMath"
-    "version"       "1.0.0"
-    "menusystem"    "1"
+    "base"		"nutscript"
+    "title"		"Nocturlab Zombie AfterMath"
+    "author"		"Shiishii"
+    "menusystem"	"1"
+    "version"		"1.0.0"
+    "menusystem"	"1"
 
     "author_name"   "Shiishii de Nocturlab"
     "author_email"  "shiishii@nocturlab.fr"
-    "author_url"    "https://github.com/shiipou"
-    "icon"          "https://zam.nocturlab.fr/gamemode/main.ico"
+    "author_url"    "https://github.com/shiipou.git"
+    "icon"          "https://zam.nocturlab.fr/content/main.ico"
     "info"          "The official Nocturlab Zombie AfterMath gamemode."
     "hide"          "0"
 }

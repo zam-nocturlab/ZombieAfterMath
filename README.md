@@ -11,14 +11,12 @@ I want to follow the main guideline of Nutscript : `Me or Other Players that pla
 All right reserved.
 
 You can't :
-Sell the script (If you're not Nocturlab)
-Modify the script (If you're not collaborator in this repository https://github.com/shiipou/zam-nocturlab/gamemode)
-Share the script (If you didn't revieve the nocturlab authorisation by mail)
-
-You may not:
-Claming the work to be your own.
-Removing the Credit.
-Using/Modifying for the "Clockwork"
+- Sell the script (If you're not Nocturlab)
+- Modify all private script (If you're not collaborator in this repository or if you're not get autorized by Shiishii https://github.com/shiipou/zam-nocturlab/gamemode)
+- Share all private script (If you didn't recieve the nocturlab authorisation by mail)
+- Claming the work to be your own.
+- Removing the Credit.
+- Using/Modifying for the "Clockwork"
 
 "Nocturlab" means the development team that created by Shiipou, which is at identified at this URL (https://github.com/shiipou).
 The "Clockwork" means the roleplay framework that created by Conna Wiles, which is being sold on www.cloudsixteen.com.

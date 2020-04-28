@@ -1,6 +1,0 @@
-[submodule "plugins/vehicle"]
-	path = plugins/vehicle
-	url = git@github.com:zam-nocturlab/vehicle_plugin.git
-[submodule "plugins/mapscript_plugin"]
-	path = plugins/mapscript_plugin
-	url = git@github.com:zam-nocturlab/mapscript_plugin.git

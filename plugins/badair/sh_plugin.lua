@@ -174,26 +174,30 @@ else
 			local clientPos = client:GetPos() + client:OBBCenter()
 			client.currentArea = nil
 
-			for index, vec in ipairs((nut.badair.getAll() or {})) do
-				if (clientPos:WithinAABox(vec[1], vec[2])) then
-					if (client:IsAdmin()) then
-						client.currentArea = index
-					end
+			-- Check if the player is outside or inside.
+	                local traceData = {}
+        	        traceData.start = client:GetPos() + client:OBBCenter()
+                	traceData.endpos = traceData.start + Vector(0, 0, 65535)
+	                traceData.filter = {client}
+        	        local trace = util.TraceLine(traceData)
 
-					if (client:Alive() and char) then
-						local gasFilter = char:getVar("gasMaskFilter")
-						local gasHealth = char:getVar("gasMaskHealth")
-						local bool = (gasFilter and gasHealth) and (gasFilter > 0 and gasHealth > 0)
+	                if (false and trace.HitSky == true and char:getFaction() != FACTION_ZOMBIE) then
+				if (client:IsAdmin()) then
+					client.currentArea = index
+				end
 
-						if (bool) then
-							char:setVar("gasMaskFilter", math.max(gasFilter - 1, 0))
-						else
-							client:TakeDamage(3)
-							client:ScreenFade(1, ColorAlpha(color_white, 100), .5, 0)
-						end		
+				if (client:Alive() and char) then
+					local gasFilter = char:getVar("gasMaskFilter")
+					local gasHealth = char:getVar("gasMaskHealth")
+					local bool = (gasFilter and gasHealth) and (gasFilter > 0 and gasHealth > 0)
 
-						break
-					end
+					if (bool) then
+						char:setVar("gasMaskFilter", math.max(gasFilter - 1, 0))
+					else
+						client:TakeDamage(3)
+						client:ScreenFade(1, ColorAlpha(color_white, 100), .5, 0)
+					end		
+					break
 				end
 			end
 		end

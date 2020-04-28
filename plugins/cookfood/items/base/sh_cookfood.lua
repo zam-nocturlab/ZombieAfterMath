@@ -11,17 +11,23 @@ ITEM.mustCooked = false
 ITEM.quantity = 1
 
 function ITEM:getDesc()
-	local str = self.foodDesc
+	local str = L(self.foodDesc or "ERROR")
 
-	if (self.mustCooked != false) then
-		str = str .. "\nThis food must be cooked."
+	if (!IsValid(self.entity)) then
+		if (self.mustCooked != false) then
+			str = str .. "\n" .. L"cookNeeded"
+		end
+
+		if (self.cookable != false) then
+			local cookData = COOKLEVEL[(self:getData("cooked") or 1)]
+
+			str = (str .. "\n" .. L"cookedLevel" ..
+			Format("<color=%s, %s, %s>", cookData[3].r, cookData[3].g, cookData[3].b) ..
+			L(cookData[1]).. "</color>")
+		end
 	end
 
-	if (self.cookable != false) then
-		str = str .. "\nFood Status: %s"
-	end
-
-	return Format(str, COOKLEVEL[(self:getData("cooked") or 1)][1])
+	return str
 end
 
 if (CLIENT) then
@@ -30,7 +36,7 @@ if (CLIENT) then
 		local quantity = item:getData("quantity", item.quantity)
 
 		if (quantity > 1) then
-			draw.SimpleText(quantity, "DermaDefault", 3, h - 3, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
+			draw.SimpleText(quantity, "DermaDefault", 5, h-5, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM, 1, color_black)
 		end
 
 		if (cooked > 1) then
@@ -40,24 +46,32 @@ if (CLIENT) then
 			surface.DrawRect(w - 14, h - 14, 8, 8)
 		end
 	end
+else
+	function ITEM:onInstanced(index, x, y, item)
+		item:setData("quantity", item.quantity)
+	end
 end
 
-ITEM:hook("use", function(item)
-	item.player:EmitSound("items/battery_pickup.wav")
-end)
-
-ITEM.functions.use = {
+ITEM.functions._use = {
 	name = "Eat",
-	tip = "useTip",
-	icon = "icon16/cup.png",
+	tip = "Eat food",
+	icon = "icon16/eat.png",
+	sound = "dickmosi/eat.wav",
 	onRun = function(item)
 		local cooked = item:getData("cooked", 1)
 		local quantity = item:getData("quantity", item.quantity)
 		local mul = COOKLEVEL[cooked][2]
 
 		item.player:addHunger(item.hungerAmount * mul) 
-		quantity = quantity - 1
 		
+		if (item.staminaAmount) then
+			local value = item.player:getLocalVar("stm", 0) + item.staminaAmount
+
+			item.player:setLocalVar("stm", math.max(100, value))
+		end
+
+		quantity = quantity - 1
+
 		if (quantity >= 1) then
 			item:setData("quantity", quantity)
 
@@ -71,6 +85,7 @@ ITEM.functions.use = {
 			return false
 		end
 
-		return (!IsValid(item.entity))
+		--return (!IsValid(item.entity))
+		return true
 	end
 }

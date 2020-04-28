@@ -1,143 +1,119 @@
--- This file contains all commands and chat types of Modern RP Schema.
+if (SERVER) then
+	util.AddNetworkString("OpenInvMenu")
 
-nut.command.add("bankdeposit", {
-	syntax = "<amount>",
-	onRun = function(client, arguments)
-		local atmEntity
-		for k, v in ipairs(ents.FindInSphere(client:GetPos(), 128)) do
-			if (v:isBank()) then
-				atmEntity = v
-				break
+	function ItemCanEnterForEveryone(inventory, action, context)
+		if (action == "transfer") then return true end
+	end
+
+	function CanReplicateItemsForEveryone(inventory, action, context)
+		if (action == "repl") then return true end
+	end
+else
+	net.Receive("OpenInvMenu", function()
+		local target = net.ReadEntity()
+		local index = net.ReadType()
+
+		local targetInv = nut.inventory.instances[index]
+		local myInv = LocalPlayer():getChar():getInv()
+
+		local inventoryDerma = targetInv:show()
+		inventoryDerma:SetTitle(target:getChar():getName().."'s Inventory")
+		inventoryDerma:MakePopup()
+		inventoryDerma:ShowCloseButton(true)
+
+		local myInventoryDerma = myInv:show()
+		myInventoryDerma:MakePopup()
+		myInventoryDerma:ShowCloseButton(true)
+		myInventoryDerma:SetParent(inventoryDerma)
+		myInventoryDerma:MoveLeftOf(inventoryDerma, 4)
+	end)
+end
+	--[[-------------------------------------------------------------------------
+	Purpose: Check other players inventory's
+	---------------------------------------------------------------------------]]
+	nut.command.add("checkinventory", {
+		adminOnly = true,
+		syntax = "<string target>",
+		onRun = function(client, arguments)
+			local target = nut.command.findPlayer(client, arguments[1])
+			if (IsValid(target) and target:getChar() and target != client) then
+				local inventory = target:getChar():getInv()
+				inventory:addAccessRule(ItemCanEnterForEveryone, 1)
+				inventory:addAccessRule(CanReplicateItemsForEveryone, 1)
+				inventory:sync(client)
+				net.Start("OpenInvMenu")
+				net.WriteEntity(target)
+				net.WriteType(inventory:getID())
+				net.Send(client)
+			elseif (target == client) then
+				client:notifyLocalized("This isn't meant for checking your own inventory.")
 			end
 		end
+	})
 
-		if (IsValid(atmEntity) and hook.Run("CanUseBank", client, atmEntity)) then
-			local amount = tonumber(table.concat(arguments, ""))
-			local char = client:getChar()
+	--[[-------------------------------------------------------------------------
+	Purpose: Check other players money amount.
+	---------------------------------------------------------------------------]]
+	nut.command.add("chargetmoney", {
+		adminOnly = true,
+		syntax = "<string target>",
+		onRun = function(client, arguments)
+			local target = nut.command.findPlayer(client, arguments[1])
+			local character = target:getChar()
+			client:notifyLocalized(character:getName().." has "..character:getMoney()..".")
+		end
+	})
 
-			if (amount and amount > 0 and char) then
-				amount = math.Round(amount)
-				if (char:hasMoney(amount)) then
-					char:addReserve(amount)
-					char:takeMoney(amount)
-					client:notify(L("depositMoney", client, nut.currency.get(amount)))
-				else
-					client:notify(L("cantAfford", client))
-				end
+	nut.command.add("tp", {
+		adminOnly = true,
+		syntax = "<string target | bool toAimPos>",
+		onRun = function(client, arguments)
+			local target = nut.command.findPlayer(client, arguments[1])
+			local position = client:GetEyeTraceNoCursor().HitPos
+			local toAimPos = util.tobool(arguments[1])
+
+			if (!toAimPos) then
+				local data = {}
+					data.start = client:GetShootPos() + client:GetAimVector() * 32
+					data.endpos = client:GetShootPos() + client:GetAimVector() * 72
+					data.filter = client
+				local trace = util.TraceLine(data)
+
+				position = trace.HitPos
+			end
+
+			if (position) then
+				target:SetPos(position)
+				client:notify(client:Name().." has teleported "..target:Name().." to "..(toAimPos and "their aim position" or "their position")..".")
 			else
-				client:notify(L("provideValidNumber", client))
+				client:notify(target:Name().." could not be teleported.")
 			end
 		end
-	end
-})
+	})
 
-nut.command.add("bankwithdraw", {
-	syntax = "<amount>",
-	onRun = function(client, arguments)
-		local atmEntity
-		for k, v in ipairs(ents.FindInSphere(client:GetPos(), 128)) do
-			if (v:isBank()) then
-				atmEntity = v
-				break
+	nut.command.add("tpa", {
+		adminOnly = true,
+		syntax = "<string target | bool toAimPos>",
+		onRun = function(client, arguments)
+			local target = nut.command.findPlayer(client, arguments[1])
+			local position = target:GetEyeTraceNoCursor().HitPos
+			local toAimPos = util.tobool(arguments[1])
+
+			if (!toAimPos) then
+				local data = {}
+					data.start = target:GetShootPos() + target:GetAimVector() * 32
+					data.endpos = target:GetShootPos() + target:GetAimVector() * 72
+					data.filter = target
+				local trace = util.TraceLine(data)
+
+				position = trace.HitPos
 			end
-		end
 
-		if (IsValid(atmEntity) and hook.Run("CanUseBank", client, atmEntity)) then
-			local amount = tonumber(table.concat(arguments, ""))
-			local char = client:getChar()
-
-			if (amount and isnumber(amount) and amount > 0 and char) then
-				amount = math.Round(tonumber(amount))
-
-				if (char:hasReserve(amount)) then
-					char:takeReserve(amount)
-					char:giveMoney(amount)
-					client:notify(L("withdrawMoney", client, nut.currency.get(amount)))
-				else
-					client:notify(L("cantAfford", client))
-				end
+			if (position) then
+				client:SetPos(position)
+				client:notify(client:Name().." has teleported to "..target:Name().."'s "..(toAimPos and "aim position" or "position")..".")
 			else
-				client:notify(L("provideValidNumber", client))
+				client:notify("A position could not be found for you.", client)
 			end
 		end
-	end
-})
-
-nut.command.add("banktransfer", {
-	syntax = "<amount>",
-	onRun = function(client, arguments)
-		local atmEntity
-		for k, v in ipairs(ents.FindInSphere(client:GetPos(), 128)) do
-			if (v:isBank()) then
-				atmEntity = v
-				break
-			end
-		end
-
-		local target = nut.command.findPlayer(client, arguments[1])
-
-		if (IsValid(target) and target:getChar()) then
-			if (IsValid(atmEntity) and hook.Run("CanUseBank", client, atmEntity)) then
-				local amount = table.concat(arguments, "")
-				local char = client:getChar()
-				local tChar = target:getChar()
-				amount = math.Round(tonumber(amount))
-
-				if (char == tChar) then
-					client:notify(L("sameChar", client))
-					return
-				end
-
-				if (amount and isnumber(amount) and amount > 0 and char) then
-					if (char:hasReserve(amount)) then
-						tChar:addReserve(amount*.95)
-						char:takeReserve(amount)
-					end
-				else
-					client:notify(L("provideValidNumber", client))
-				end
-			end
-		end
-	end
-})
-
-nut.command.add("banklongtransfer", {
-	syntax = "<amount>",
-	onRun = function(client, arguments)
-		local atmEntity
-		for k, v in ipairs(ents.FindInSphere(client:GetPos(), 128)) do
-			if (v:isBank()) then
-				atmEntity = v
-				break
-			end
-		end
-
-		if (IsValid(atmEntity) and hook.Run("CanUseBank", client, atmEntity)) then
-			local amount = table.concat(arguments, "")
-			local char = client:getChar()
-			amount = math.Round(tonumber(amount))
-
-			if (amount and isnumber(amount) and amount > 0 and char) then
-				if (char:hasReserve(amount)) then
-					-- Fee 10%
-				end
-			else
-				client:notify(L("provideValidNumber", client))
-			end
-		end
-	end
-})
-
--- Advert Chat Type
-nut.chat.register("advert", {
-	onCanSay =  function(speaker, text)
-		local char = speaker:getChar()
-		return (char:hasMoney(10) and char:takeMoney(10))
-	end,
-	onCanHear = 1000000,
-	onChatAdd = function(speaker, text)
-		text = "ADVERT: " .. text
-		chat.AddText(Color(180, 255, 10), text)
-	end,
-	prefix = {"/advert", "/ad"}
-})
+	})

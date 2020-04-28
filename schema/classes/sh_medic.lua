@@ -8,6 +8,7 @@ CLASS.business = {
 }
 
 function CLASS:OnSet(client)
+	
 end
 
-CLASS_COOK = CLASS.index
+CLASS_MEDIC = CLASS.index

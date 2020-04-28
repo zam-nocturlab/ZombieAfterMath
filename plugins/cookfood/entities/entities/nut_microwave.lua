@@ -3,14 +3,29 @@ AddCSLuaFile()
 ENT.Type = "anim"
 ENT.PrintName = "Microwave"
 ENT.Author = "Black Tea"
-ENT.Spawnable = true
+ENT.Spawnable = false
 ENT.AdminOnly = true
 ENT.RenderGroup 		= RENDERGROUP_BOTH
 ENT.Category = "NutScript"
 ENT.invType = "microwave"
-nut.item.registerInv(ENT.invType, 2, 1)
+
+Inventory = FindMetaTable("GridInv")
+nut.item.inventories = nut.inventory.instances
 
 if (SERVER) then
+
+local function ItemCanEnterForEveryone(inventory, action, context)
+	if (action == "transfer") then
+		return true
+	end
+end
+
+local function CanReplicateItemsForEveryone(inventory, action, context)
+	if (action == "repl") then
+		return true
+	end
+end
+
 	function ENT:Initialize()
 		self:SetModel("models/props/cs_office/microwave.mdl")
 		self:PhysicsInit(SOLID_VPHYSICS)
@@ -25,14 +40,16 @@ if (SERVER) then
 			physicsObject:Wake()
 		end
 
-		nut.item.newInv(0, self.invType, function(inventory)
-			self:setInventory(inventory)
-			inventory.noBags = true
-
-			function inventory:onCanTransfer(client, oldX, oldY, x, y, newInvID)
-				return hook.Run("StorageCanTransfer", inventory, client, oldX, oldY, x, y, newInvID)
-			end
-		end)
+		Inventory:instance({w = 2, h = 1})
+			:next(function(inventory)
+				self:setInventory(inventory)
+				inventory:addAccessRule(ItemCanEnterForEveryone)
+				inventory:addAccessRule(CanReplicateItemsForEveryone)
+				inventory.noBags = false
+				function inventory:onCanTransfer(client, oldX, oldY, x, y, newInvID)
+					return hook.Run("StorageCanTransfer", inventory, client, oldX, oldY, newInvID)
+				end
+			end)
 	end
 
 	function ENT:setInventory(inventory)

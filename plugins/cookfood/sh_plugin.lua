@@ -1,15 +1,19 @@
-local PLUGIN = PLUGIN
+--VERSION SUPPORT: 1.1-beta
+
 PLUGIN.name = "Cook Food"
 PLUGIN.author = "Black Tea"
 PLUGIN.desc = "How about getting new foods in NutScript?"
-PLUGIN.hungrySeconds = 18000 -- A player can stand up 300 seconds without any foods
+
+hungrySeconds = 39600 -- 1100 = 300 seconds i guess (3 Hours to Starve)
+
+nut.config.add("hungerTime", 5, "Amount of time between each hunger update." );
 
 COOKLEVEL = {
-	[1] = {"Uncooked", 1, color_white},
-	[2] = {"Burnt", .7, Color(207, 0, 15)},
-	[3] = {"Well Done", 2, Color(235, 149, 50)},
-	[4] = {"Good", 3, Color(103, 128, 159)},
-	[5] = {"Very Good", 3.5, Color(63, 195, 128)},
+	[1] = {"cookNever", 2, color_white},
+	[2] = {"cookFailed", 1, Color(207, 0, 15)},
+	[3] = {"cookWell", 3, Color(235, 149, 50)},
+	[4] = {"cookDone", 4, Color(103, 128, 159)},
+	[5] = {"cookGood", 6, Color(63, 195, 128)},
 }
 COOKER_MICROWAVE = 1
 COOKER_STOVE = 2
@@ -24,14 +28,17 @@ function playerMeta:getHunger()
 end
 
 function playerMeta:getHungerPercent()
-	return math.Clamp(((CurTime() - self:getHunger()) / PLUGIN.hungrySeconds), 0 ,1)
+	return math.Clamp(((CurTime() - self:getHunger()) / hungrySeconds), 0, 1)
+end
+
+function getPercent(object)
+	return math.Clamp(((CurTime() - object:getHunger()) / hungrySeconds), 0, 1)
 end
 
 function playerMeta:addHunger(amount)
 	local curHunger = CurTime() - self:getHunger()
-
 	self:setNetVar("hunger", 
-		CurTime() - math.Clamp(math.min(curHunger, PLUGIN.hungrySeconds) - amount, 0, PLUGIN.hungrySeconds)
+		CurTime() - math.Clamp(math.min(curHunger, hungrySeconds) - amount, 0, hungrySeconds)
 	)
 end
 
@@ -47,14 +54,14 @@ if (CLIENT) then
 
 	do
 		 nut.bar.add(function()
-			return (1 - LocalPlayer():getHungerPercent())
+			return (1 - getPercent(LocalPlayer()))
 		end, color, nil, "hunger")
 	end
 
 	local hungerBar, percent, wave
 	function PLUGIN:Think()
-		hungerBar = nut.bar.get("hunger")
-		percent = (1 - LocalPlayer():getHungerPercent())
+		hungerBar = hungerBar or nut.bar.get("hunger")
+		percent = (1 - getPercent(LocalPlayer()))
 
 		if (percent < .33) then -- if hunger is 33%
 			wave = math.abs(math.sin(RealTime()*5)*100)
@@ -70,62 +77,64 @@ if (CLIENT) then
 
 	netstream.Hook("stvOpen", function(entity, index)
 		local inventory = nut.item.inventories[index]
+		local inventory2 = LocalPlayer():getChar():getInv()
 
-		if (IsValid(entity) and inventory and inventory.slots) then
-			nut.gui.inv1 = vgui.Create("nutInventory")
-			nut.gui.inv1:ShowCloseButton(true)
+		nut.gui.inv1 = inventory2:show()
+		nut.gui.inv1:ShowCloseButton(true)
 
-			local inventory2 = LocalPlayer():getChar():getInv()
-
-			if (inventory2) then
-				nut.gui.inv1:setInventory(inventory2)
+		local panel = inventory:show()
+		panel:ShowCloseButton(true)
+		panel:SetTitle("Stove")
+		panel:MoveLeftOf(nut.gui.inv1, 4)
+		panel.OnClose = function(this)
+			if (IsValid(nut.gui.inv1) and !IsValid(nut.gui.menu)) then
+				nut.gui.inv1:Remove()
 			end
 
-			local panel = vgui.Create("nutInventory")
-			panel:ShowCloseButton(true)
-			panel:SetTitle("Cookable Object")
-			panel:setInventory(inventory)
-			panel:MoveLeftOf(nut.gui.inv1, 4)
-			panel.OnClose = function(this)
-				if (IsValid(nut.gui.inv1) and !IsValid(nut.gui.menu)) then
-					nut.gui.inv1:Remove()
-				end
-
-				netstream.Start("invExit")
-			end
-
-			local actPanel = vgui.Create("DPanel")
-			actPanel:SetDrawOnTop(true)
-			actPanel:SetSize(100, panel:GetTall())
-			actPanel.Think = function(this)
-				if (!panel or !panel:IsValid() or !panel:IsVisible()) then
-					this:Remove()
-
-					return
-				end
-
-				local x, y = panel:GetPos()
-				this:SetPos(x - this:GetWide() - 5, y)
-			end
-
-			for k, v in ipairs(timers) do
-				local btn = actPanel:Add("DButton")
-				btn:Dock(TOP)
-				btn:SetText(v .. " Seconds")
-				btn:DockMargin(5, 5, 5, 0)
-
-				function btn.DoClick()
-					netstream.Start("stvActive", entity, v)
-				end
-			end
-
-			nut.gui["inv"..index] = panel
+			netstream.Start("invExit")
 		end
+			
+		function nut.gui.inv1:OnClose()
+			if (IsValid(panel) and !IsValid(nut.gui.menu)) then
+				panel:Remove()
+			end
+
+			netstream.Start("invExit")
+		end
+
+		local actPanel = vgui.Create("DPanel")
+		actPanel:SetDrawOnTop(true)
+		actPanel:SetSize(100, panel:GetTall())
+		actPanel.Think = function(this)
+			if (!panel or !panel:IsValid() or !panel:IsVisible()) then
+				this:Remove()
+
+				return
+			end
+
+			local x, y = panel:GetPos()
+			this:SetPos(x - this:GetWide() - 5, y)
+		end
+
+		for k, v in ipairs(timers) do
+			local btn = actPanel:Add("DButton")
+			btn:Dock(TOP)
+			btn:SetText(v .. " Seconds")
+			btn:DockMargin(5, 5, 5, 0)
+
+			function btn.DoClick()
+				netstream.Start("stvActive", entity, v)
+			end
+		end
+
+		nut.gui["inv"..index] = panel
 	end)
 else
 	local PLUGIN = PLUGIN
 
 	function PLUGIN:LoadData()
+		if (true) then return end
+		
 		local savedTable = self:getData() or {}
 
 		for k, v in ipairs(savedTable) do
@@ -138,6 +147,8 @@ else
 	end
 	
 	function PLUGIN:SaveData()
+		if (true) then return end
+
 		local savedTable = {}
 
 		for k, v in ipairs(ents.GetAll()) do
@@ -150,7 +161,7 @@ else
 	end
 	
 	function PLUGIN:CharacterPreSave(character)
-		local savedHunger = math.Clamp(CurTime() - character.player:getHunger(), 0, PLUGIN.hungrySeconds)
+		local savedHunger = math.Clamp(CurTime() - character.player:getHunger(), 0, hungrySeconds)
 		character:setData("hunger", savedHunger)
 	end
 
@@ -174,21 +185,20 @@ else
 	end
 
 	local thinkTime = CurTime()
-	function PLUGIN:Think()
+	function PLUGIN:PlayerPostThink(client)
 		if (thinkTime < CurTime()) then
-			for k, v in ipairs(player.GetAll()) do
-				local percent = (1 - v:getHungerPercent())
+			local percent = (1 - getPercent(client))
 
-				if (percent <= 0) then
-					if (v:Alive() and v:Health() <= 0) then
-						v:Kill()
-					else
-						v:SetHealth(math.Clamp(v:Health() - 1, 0, v:GetMaxHealth()))
-					end
+			if (percent <= 0) then
+				if (client:Alive() and client:Health() <= 0) then
+					client:Kill()
+				else
+					client:SetHealth(math.Clamp(client:Health() - 1, 0, client:GetMaxHealth()))
 				end
 			end
 
-			thinkTime = CurTime() + .5
+			thinkTime = CurTime() + nut.config.get("hungerTime")
+			--thinkTime = CurTime() + 0.5
 		end
 	end
 end

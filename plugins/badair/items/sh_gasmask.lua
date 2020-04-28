@@ -106,7 +106,7 @@ else
 			if (client.deadMaskChar and client.deadMaskChar == char:getID() and char:getVar("gasMask", nil)) then
 				-- REMOVE TEMP MASKVARS
 				char:setVar("gasMask", nil)
-				char:removePart("gasmask")
+				--char:removePart("gasmask")
 			end
 				
 			client.deadMaskChar = nil
@@ -166,7 +166,7 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 		item:setData("equip", false)
 		item:setData("health", char:getVar("gasMaskHealth", DEFAULT_GASMASK_HEALTH))
 		item:setData("filter", char:getVar("gasMaskFilter", DEFAULT_GASMASK_FILTER))
-		char:removePart(item.uniqueID)
+		--char:removePart(item.uniqueID)
 
 		char:setVar("gasMask", nil)
 		char:setVar("gasMaskHealth", nil)
@@ -206,7 +206,7 @@ ITEM.functions.Equip = {
 		char:setVar("gasMask", true)
 		char:setVar("gasMaskHealth", item:getData("health", DEFAULT_GASMASK_HEALTH))
 		char:setVar("gasMaskFilter", item:getData("filter", DEFAULT_GASMASK_FILTER))
-		char:addPart(item.uniqueID)
+		--char:addPart(item.uniqueID)
 
 		netstream.Start(item.player, "mskInit", char:getVar("gasMaskHealth"))
 
