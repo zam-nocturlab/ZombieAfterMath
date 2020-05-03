@@ -1,0 +1,7 @@
+"zam_nocturlab"
+{
+	"base"		"nutscript"
+	"title"		"Nocturlab Zombie AfterMath"
+	"author"	"Shiishii"
+	"menusystem"    "1"
+}
