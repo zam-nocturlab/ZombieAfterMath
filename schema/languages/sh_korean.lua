@@ -98,6 +98,6 @@ LANGUAGE = {
 	Freq = "주파수",
 	Spawn = "소환",
 	Sell = "판매",
-	Store = "보관",
+	Store = "보관"
 
 }

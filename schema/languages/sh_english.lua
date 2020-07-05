@@ -15,13 +15,13 @@ LANGUAGE = {
 	cantAfford = "You can't afford it",
 	enterAmount = "Enter the amount",
 	requireAttrib = "You must continue to train to use this item. (%s: %s/%s)",
-	lotteryFail = "You didn't win anything in the lottery"
+	lotteryFail = "You didn't win anything in the lottery",
 	lotteryProfit = "You won %s in the lottery.",
 	["Gun Efficiency"] = "Shooting Performance",
 	["Medical Knowledge"] = "Medical Knowledge",
-	["Melee Efficiency"] = "Close Combat Mastery"
-	["Stamina"] = "Stamina"
-	["Endurance"] = "Endurance"
+	["Melee Efficiency"] = "Close Combat Mastery",
+	["Stamina"] = "Stamina",
+	["Endurance"] = "Endurance",
 
 	-- BAR LANGUAGES
 	stm = "STAMINA",
@@ -32,22 +32,22 @@ LANGUAGE = {
 	-- ITEM CATEGORY TRANSLATION
 	[ "Ammunition" ] = "Ammunition",
 	["Communication"] = "Communication",
-	["Female Clothes"] = "Female Clothes"
+	["Female Clothes"] = "Female Clothes",
 	["Male Clothes"] = "Male Clothes",
 	["Medical"] = "Medical Materials",
-	["Outfit"] = "Clothes."
+	["Outfit"] = "Clothes.",
 	["Illegal"] = "Illegal Goods",
-	["Consumable"] = "Consumable"
-	["Storage"] = "Storage"
+	["Consumable"] = "Consumable",
+	["Storage"] = "Storage",
 	["Education"] = "Education",
 
 	-- GROUP PLUGIN TRANSLATION
 	groupCreated = "The %s group has been created",
 	groupDeleted = "The %s group has been disbanded.",
-	groupPermission = "You do not have authorization to execute this command."
+	groupPermission = "You do not have authorization to execute this command.",
 	groupFail = "The creation of the group failed.",
-	groupExists = "This group already exists."
-	groupInvalid = "The organization does not exist."
+	groupExists = "This group already exists.",
+	groupInvalid = "The organization does not exist.",
 	groupHUDLeader = "Responsible for group '%s'.",
 	groupHUD = "Member of group '%s'.",
 	groupGotKicked = "You've been kicked out of the group.",
@@ -62,20 +62,20 @@ LANGUAGE = {
 	-- RADIO PLUGIN TRANSLATION
 	radioFreq = "Radio frequency",
 	radioSubmit = "Set",
-	RadioNoRadio = "No radio signal."
-	radioNoRadioComm = "No radio communications."
+	RadioNoRadio = "No radio signal.",
+	radioNoRadioComm = "No radio communications.",
 	radioFormat = "(Radio) %s: \"%s\"",
 
 	-- VEHICLE PLUGIN TRANSLATION
 	vehicleDesc = "You have changed your car information: %s.",
-	vehicleExists = "You already have a vehicle deployed."
-	vehicleStored = "You have stored your vehicle in the garage."
+	vehicleExists = "You already have a vehicle deployed.",
+	vehicleStored = "You have stored your vehicle in the garage.",
 	notSky = "You need to go outside to call your car.",
 	vehicleSpawned = "Your vehicle has been delivered to you.",
 	vehicleCloser = "You need to get closer of your vehicle.",
-	vehicleStoredDestroyed = "You have stored a damaged vehicle,"
-	vehicleGasFilled = "You have filled up the vehicle with %d%%."
-	vehicleGasLook = "You must look at the vehicle to fill up with fuel."
+	vehicleStoredDestroyed = "You have stored a damaged vehicle,",
+	vehicleGasFilled = "You have filled up the vehicle with %d%%.",
+	vehicleGasLook = "You must look at the vehicle to fill up with fuel.",
 
 	-- STASH PLUGIN TRANSLATION\
 	stash = "Stash",
@@ -83,7 +83,7 @@ LANGUAGE = {
 	stashOut = "Stash out",
 	stashError = "Impossible to store things in the stash",
 	stashMenu = "Stash menu",
-	stashDesc = "You can safely store your items here."
+	stashDesc = "You can safely store your items here.",
 
 	-- ITEM INTERACTION TRANSLATION
 	Unequip = "un-equip",
@@ -99,8 +99,8 @@ LANGUAGE = {
 	Drink = "Drink",
 	Toggle = "Toggle",
 	Freq = "Frequency",
-	Spawn = "Spawn"
+	Spawn = "Spawn",
 	Sell = "Shell",
-	Store = "Store",
+	Store = "Store"
 
 }

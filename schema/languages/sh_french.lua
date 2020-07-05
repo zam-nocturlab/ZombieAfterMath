@@ -101,6 +101,6 @@ LANGUAGE = {
 	Freq = "Fréquence",
 	Spawn = "Invoquer",
 	Sell = "Vendre",
-	Store = "Entreposer",
+	Store = "Entreposer"
 
 }

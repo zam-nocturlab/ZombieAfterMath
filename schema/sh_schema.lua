@@ -2,8 +2,16 @@
 Purpose: This is where you set up everything for your schema. Title, description,
 author, currency, custom flags.
 ---------------------------------------------------------------------------]]
+
+-- Define gamemode information.
+GM.Name = "Nocturlab Zombie AfterMath"
+GM.Author = "Shiishii"
+GM.Website = "http://zam.nocturlab.fr/"
+
+nut.version = "2.0"
+
 SCHEMA.name = "Nocturlab Zombie AfterMath" -- Change this name if you're going to create new schema.
-SCHEMA.author = "Shiipou"
+SCHEMA.author = "Shiishii"
 SCHEMA.desc = "The official Nocturla Zombie AfterMath Gamemode where the player take place in a future wasteland after an apocalyptical nuclear war."
 
 -- Schema Help Menu. You can add more stuffs in cl_hooks.lua.
@@ -30,6 +38,8 @@ if (SERVER) then --Serverside
         resource.AddWorkshop(170149842) -- NYPD Male Models (https://steamcommunity.com/sharedfiles/filedetails/?id=311241022)
         resource.AddWorkshop(323285641) -- TDM Base GTA V (https://steamcommunity.com/sharedfiles/filedetails/?id=323285641)
         resource.AddWorkshop(1316337273) -- TDM GTA V Helicopters (https://steamcommunity.com/sharedfiles/filedetails/?id=1316337273)
+
+        resource.AddWorkshop(104691717) -- PAC3 accessories (https://steamcommunity.com/sharedfiles/filedetails/?104691717)
 
         resource.AddWorkshop(1837527967) -- Life Mod: Graphic (https://steamcommunity.com/sharedfiles/filedetails/?1837527967)
         resource.AddWorkshop(131759821) -- VJ Base (https://steamcommunity.com/sharedfiles/filedetails/?131759821)

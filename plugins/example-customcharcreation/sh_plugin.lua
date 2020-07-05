@@ -35,8 +35,10 @@ function PLUGIN:OnCharCreated(client, character)
 		-- Add Initial items
 		inventory:add("gasmask")
 		inventory:add("gasmfilter")
+		inventory:add("m4a1")
+		inventory:add("ar2ammo", 90)
 		inventory:add("p228")
-		inventory:add("pistolammo", 45)
+		inventory:add("pistolammo", 90)
 		
 	end
 end
